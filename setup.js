@@ -18,10 +18,23 @@ function writeWebFiles() {
     fs.writeFileSync("index.html",
         '<!DOCTYPE html>\n' +
         '<html>\n' +
+        '<head>\n' +
         '<meta charset = "UTF-8"\n' +
         '<meta name = "viewport" content = "width=device-width, initial-scale=1.0">\n' +
         '<meta name = "format-detection" content = "telephone=no"/>\n\n' +
-        '<!-- Preloaded font for potential issues across browsers -->');
+        '<!-- Preloaded font for potential issues across browsers -->\n\n' +
+        '<link rel = "stylesheet" href = "styles.css"/>\n' +
+        '<script src = "script.js"></script>\n' +
+        '<title> Placeholder </title>\n' +
+        '</head>\n' +
+        '</html>\n');
+
+    fs.writeFileSync("styles.css",
+        '* {\n' +
+        'box-sizing: border-box;\n' +
+        'margin: 0;\n' +
+        'padding: 0;\n' +
+        '}\n')
 }
 
 try {
@@ -29,12 +42,15 @@ try {
         fs.writeFileSync("index.html", "");
         fs.writeFileSync("styles.css", "");
         fs.writeFileSync("script.js", "");
-
         writeWebFiles();
+        
+        console.log("[SYSTEM]: The setup has been completed.");
     } else if (mode == "clean" || mode == "-c") {
         fs.writeFileSync("index.html", "");
         fs.writeFileSync("styles.css", "");
         fs.writeFileSync("script.js", "");
+
+        console.log("[SYSTEM]: The setup has been cleaned.");
     } else if (mode == "reset" || mode == "-r") {
         const pathOne = currPath + "/index.html";
         const pathTwo = currPath + "/styles.css";
@@ -43,9 +59,12 @@ try {
         fs.unlinkSync(pathOne);
         fs.unlinkSync(pathTwo);
         fs.unlinkSync(pathThree);
+
+        console.log("[SYSTEM]: The setup has been reset.");
     } else {
         console.log("[SYSTEM]: Please enter a valid flag attribute.");
     }
+    
 
 } catch (e) {
     console.log("[SYSTEM]: There was an issue running setup.js");

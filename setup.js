@@ -3,17 +3,28 @@
  * Included files are index.html, styles.css, and script.js.
  * RUN: Execute this file upon placing in your desired repository.
  * MODES: MAKE, CLEAN, and RESET.
+ * MAKE: node setup.js
+ * CLEAN: node setup.js -c
+ * RESET: node setup.js -r
  */
 
+// define js libaries
 const fs = require("fs");
 const path = require('node:path');
 
-var mode = "default";
+// check user-inputted flags
+var mode = "make";
 if (process.argv.length > 2) {
     mode = process.argv[2];
 }
-const currPath = process.cwd();
 
+// setup different modes
+const currPath = process.cwd();
+const defaultMode = [undefined, "make", "-m"];
+const cleanMode = ["clean", "-c"];
+const resetMode = ["reset", "-r", "-d"];
+
+// write to files
 function writeWebFiles() {
     fs.writeFileSync("index.html",
         '<!DOCTYPE html>\n' +
@@ -37,21 +48,22 @@ function writeWebFiles() {
         '}\n')
 }
 
+// main setup
 try {
-    if (mode == undefined || mode == "default" || mode == "make" || mode == "m" || mode == "-d") {
+    if (defaultMode.includes(mode)) {
         fs.writeFileSync("index.html", "");
         fs.writeFileSync("styles.css", "");
         fs.writeFileSync("script.js", "");
         writeWebFiles();
         
         console.log("[SYSTEM]: The setup has been completed.");
-    } else if (mode == "clean" || mode == "-c") {
+    } else if (cleanMode.includes(mode)) {
         fs.writeFileSync("index.html", "");
         fs.writeFileSync("styles.css", "");
         fs.writeFileSync("script.js", "");
 
         console.log("[SYSTEM]: The setup has been cleaned.");
-    } else if (mode == "reset" || mode == "-r") {
+    } else if (resetMode.includes(mode)) {
         const pathOne = currPath + "/index.html";
         const pathTwo = currPath + "/styles.css";
         const pathThree = currPath + "/script.js";
@@ -64,9 +76,7 @@ try {
     } else {
         console.log("[SYSTEM]: Please enter a valid flag attribute.");
     }
-    
-
 } catch (e) {
-    console.log("[SYSTEM]: There was an issue running setup.js");
+    console.log("[SYSTEM]: There was an issue running the setup.");
     console.log(e);
 }
